@@ -1,9 +1,12 @@
-import React from 'react'
+import { UserButton } from "@clerk/nextjs";
+import React from "react";
 
 function Header() {
   return (
-    <div>Header</div>
-  )
+    <div className="flex justify-end p-5 shadow-md">
+      <UserButton />
+    </div>
+  );
 }
 
-export default Header
+export default Header;
