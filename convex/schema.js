@@ -7,4 +7,12 @@ export default defineSchema({
     email: v.string(),
     imageURL: v.string(),
   }),
+
+  pdfFiles: defineTable({
+    fileID: v.string(),
+    storageId: v.string(),
+    fileName: v.string(),
+    fileURL: v.string(),
+    createdBy: v.string(),
+  }),
 });
