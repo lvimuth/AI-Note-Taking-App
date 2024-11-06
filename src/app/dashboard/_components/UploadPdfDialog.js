@@ -13,16 +13,18 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Loader2Icon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 function UploadPdfDialog({ children }) {
   const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl);
   const addFileEntry = useMutation(api.fileStorage.AddFileEntryToDB);
   const getFileURL = useMutation(api.fileStorage.getFileURL);
+  const embeddedDocument = useAction(api.myAction.ingest);
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState();
@@ -34,6 +36,7 @@ function UploadPdfDialog({ children }) {
 
   const onUpload = async () => {
     setLoading(true);
+
     const postUrl = await generateUploadUrl();
     const result = await fetch(postUrl, {
       method: "POST",
@@ -42,7 +45,6 @@ function UploadPdfDialog({ children }) {
     });
     const { storageId } = await result.json();
     console.log("File uploaded successfully", storageId);
-    setLoading(false);
 
     const fileID = uuidv4();
     const fileURL = await getFileURL({ storageId: storageId });
@@ -54,7 +56,14 @@ function UploadPdfDialog({ children }) {
       createdBy: user?.primaryEmailAddress?.emailAddress,
     });
 
-    console.log(resp);
+    const ApiResponse = await axios.get("/api/pdf-loader?pdfURL=" + fileURL);
+    console.log(ApiResponse.data.result);
+    const embededResult = embeddedDocument({
+      splitText: ApiResponse.data.result,
+      fileID: "123",
+    });
+    console.log(embededResult);
+    setLoading(false);
   };
 
   return (

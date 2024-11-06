@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 
-const pdfURL =
-  "https://formal-chihuahua-918.convex.cloud/api/storage/0166f45c-8645-4170-9e2a-acf208cfffb3";
+// const pdfURL =
+//   "https://formal-chihuahua-918.convex.cloud/api/storage/0166f45c-8645-4170-9e2a-acf208cfffb3";
 export async function GET(req) {
   //1. Load the pdf file
   const response = await fetch(pdfURL);
