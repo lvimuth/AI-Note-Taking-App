@@ -29,6 +29,7 @@ function UploadPdfDialog({ children }) {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState();
+  const [open, setOpen] = useState(false);
 
   const OnFileSelect = (event) => {
     setFile(event.target.files[0]);
@@ -58,18 +59,22 @@ function UploadPdfDialog({ children }) {
 
     const ApiResponse = await axios.get("/api/pdf-loader?pdfURL=" + fileURL);
     console.log(ApiResponse.data.result);
-    const embededResult = embeddedDocument({
+    await embeddedDocument({
       splitText: ApiResponse.data.result,
-      fileID: "123",
+      fileID: fileID,
     });
-    console.log(embededResult);
     setLoading(false);
+    setOpen(false);
   };
 
   return (
     <div>
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
+      <Dialog open={open}>
+        <DialogTrigger asChild>
+          <Button onClick={() => setOpen(true)} className="w-full">
+            + Upload PDF File
+          </Button>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Upload PDF File</DialogTitle>
@@ -101,7 +106,7 @@ function UploadPdfDialog({ children }) {
                 Close
               </Button>
             </DialogClose>
-            <Button onClick={onUpload}>
+            <Button onClick={onUpload} disabled={loading}>
               {loading ? <Loader2Icon className="animate-spin" /> : "Upload"}
             </Button>
           </DialogFooter>

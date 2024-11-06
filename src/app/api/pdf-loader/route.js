@@ -5,6 +5,11 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 // const pdfURL =
 //   "https://formal-chihuahua-918.convex.cloud/api/storage/0166f45c-8645-4170-9e2a-acf208cfffb3";
 export async function GET(req) {
+  const requestURL = req.url;
+  const { searchParams } = new URL(requestURL);
+  const pdfURL = searchParams.get("pdfURL");
+  console.log(pdfURL);
+
   //1. Load the pdf file
   const response = await fetch(pdfURL);
   const data = await response.blob();
