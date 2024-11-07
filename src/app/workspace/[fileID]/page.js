@@ -22,7 +22,7 @@ function Workspace() {
       <div className="grid grid-cols-2 gap-2">
         <div>
           {/* Text Editor */}
-          <TextEditor />
+          <TextEditor fileID={fileID} />
         </div>
         <div>
           {/* PDF viewer */}
