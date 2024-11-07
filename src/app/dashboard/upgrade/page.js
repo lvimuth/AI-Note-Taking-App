@@ -1,10 +1,22 @@
 "use client";
 
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import { useMutation } from "convex/react";
 import React from "react";
+import { api } from "../../../../convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 function UpgradePlans() {
-  const onPaymentSuccess = () => {};
+  const userUpgradePlan = useMutation(api.user.userUpgradePlan);
+  const { user } = useUser();
+  const onPaymentSuccess = async () => {
+    const result = await userUpgradePlan({
+      userEmail: user?.primaryEmailAddress?.emailAddress,
+    });
+    console.log(result);
+    toast("Plans upgraded successfully");
+  };
   return (
     <div>
       <h2 className="font-medium text-3xl">Plans</h2>

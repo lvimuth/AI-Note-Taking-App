@@ -16,6 +16,10 @@ function SideBar() {
   const numberOfFilesUploaded = 5;
   const { user } = useUser();
   const path = usePathname();
+  const GetUserInfo = useQuery(api.user.GetUserInfo, {
+    userEmail: user?.primaryEmailAddress?.emailAddress,
+  });
+  console.log("GetUserInfo", GetUserInfo);
   const fileList = useQuery(api.fileStorage.GetUserFiles, {
     userEmail: user?.primaryEmailAddress.emailAddress,
   });
@@ -24,7 +28,11 @@ function SideBar() {
       <Image src={"/logo.svg"} alt="logo" width={170} height={120} />
       <div className="mt-10">
         <UploadPdfDialog
-          isMaxFile={fileList?.length >= numberOfFilesUploaded ? true : false}
+          isMaxFile={
+            fileList?.length >= numberOfFilesUploaded && !GetUserInfo.upgrade
+              ? true
+              : false
+          }
         >
           <Button className="w-full">+ Upload PDF</Button>
         </UploadPdfDialog>
@@ -45,11 +53,17 @@ function SideBar() {
           </div>
         </Link>
       </div>
-      <div className="absolute bottom-20 w-[80%]">
-        <Progress value={(fileList?.length / numberOfFilesUploaded) * 100} />
-        <p className="text-sm mt-1">{fileList?.length} out of 5 PDF Uploaded</p>
-        <p className="text-sm text-gray-400 mt-2">Upgrade to upload more PDF</p>
-      </div>
+      {!GetUserInfo?.upgrade && (
+        <div className="absolute bottom-20 w-[80%]">
+          <Progress value={(fileList?.length / numberOfFilesUploaded) * 100} />
+          <p className="text-sm mt-1">
+            {fileList?.length} out of 5 PDF Uploaded
+          </p>
+          <p className="text-sm text-gray-400 mt-2">
+            Upgrade to upload more PDF
+          </p>
+        </div>
+      )}
     </div>
   );
 }
