@@ -13,6 +13,7 @@ import {
 import React from "react";
 import { api } from "../../../../convex/_generated/api";
 import { useParams } from "next/navigation";
+import { chatSession } from "../../../../config/AIModel";
 
 function EditorExtensions({ editor }) {
   const { fileID } = useParams();
@@ -30,7 +31,30 @@ function EditorExtensions({ editor }) {
       query: selectedText,
       fileID: fileID,
     });
-    console.log(result);
+
+    const unformattedAnswer = JSON.parse(result);
+    let allUnformattedAnswer = "";
+    unformattedAnswer &&
+      unformattedAnswer.forEach(
+        (item) =>
+          (allUnformattedAnswer = allUnformattedAnswer + item.pageContent)
+      );
+
+    const PROMPT =
+      "For Question :" +
+      selectedText +
+      " and with the given content as answer, give comprehensive short appropriate answer in one <p> tag HTML format. The answer content is : " +
+      allUnformattedAnswer;
+
+    const AIModelResult = await chatSession.sendMessage(PROMPT);
+
+    const AllText = editor.getHTML();
+    editor.commands.setContent(
+      AllText +
+        "<p><strong>Answer:</strong>" +
+        AIModelResult.response.text().replace("```", "".replace("html", "")) +
+        " </P>"
+    );
   };
   return (
     editor && (
