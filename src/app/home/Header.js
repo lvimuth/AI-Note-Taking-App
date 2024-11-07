@@ -11,8 +11,8 @@ function Header() {
         <img
           src="/logo.svg"
           className="cursor-pointer"
-          width={100}
-          height={100}
+          width={170}
+          height={170}
           href="#"
         />
       </Link>
