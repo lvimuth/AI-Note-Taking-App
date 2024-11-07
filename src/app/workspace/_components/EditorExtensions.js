@@ -14,12 +14,14 @@ import React from "react";
 import { api } from "../../../../convex/_generated/api";
 import { useParams } from "next/navigation";
 import { chatSession } from "../../../../config/AIModel";
+import { toast } from "sonner";
 
 function EditorExtensions({ editor }) {
   const { fileID } = useParams();
   const SearchAI = useAction(api.myAction.search);
 
   const onAiClick = async () => {
+    toast("Please Wait. AI is getting your answer....")
     const selectedText = editor.state.doc.textBetween(
       editor.state.selection.from,
       editor.state.selection.to,
