@@ -31,7 +31,6 @@ function EditorExtensions({ editor }) {
       editor.state.selection.to,
       " "
     );
-    console.log(fileID, selectedText);
 
     const result = await SearchAI({
       query: selectedText,

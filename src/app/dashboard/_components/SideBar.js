@@ -9,23 +9,33 @@ import UploadPdfDialog from "./UploadPdfDialog";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 function SideBar() {
   const numberOfFilesUploaded = 5;
   const { user } = useUser();
   const path = usePathname();
+  const router = useRouter();
+  const { isSignedIn } = useUser();
   const GetUserInfo = useQuery(api.user.GetUserInfo, {
     userEmail: user?.primaryEmailAddress?.emailAddress,
   });
-  console.log("GetUserInfo", GetUserInfo);
   const fileList = useQuery(api.fileStorage.GetUserFiles, {
     userEmail: user?.primaryEmailAddress.emailAddress,
   });
+  const handleNavigation = () => {
+    router.push("/");
+  };
   return (
     <div className="shadow-md h-screen p-7">
-      <Image src={"/logo.svg"} alt="logo" width={170} height={120} />
+      <Image
+        src={"/logo.svg"}
+        alt="logo"
+        width={170}
+        height={120}
+        onClick={handleNavigation}
+      />
       <div className="mt-10">
         <UploadPdfDialog
           isMaxFile={

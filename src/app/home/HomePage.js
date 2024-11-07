@@ -6,8 +6,6 @@ import Link from "next/link";
 
 function HomePage() {
   const { user } = useUser();
-
-  console.log("HomePage", user);
   return (
     <div>
       <Header />

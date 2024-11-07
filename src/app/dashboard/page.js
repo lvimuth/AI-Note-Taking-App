@@ -13,7 +13,6 @@ function Dashboard() {
   const fileList = useQuery(api.fileStorage.GetUserFiles, {
     userEmail: user?.primaryEmailAddress.emailAddress,
   });
-  console.log("fileList", fileList);
   return (
     <div>
       <h2 className="font-medium text-3xl">Workspace</h2>

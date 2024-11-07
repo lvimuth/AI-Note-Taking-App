@@ -15,9 +15,7 @@ function Workspace() {
   const textEditorRef = useRef(null);
   const [isModified, setIsModified] = useState(false);
 
-  useEffect(() => {
-    console.log("FileInfo ", fileInfo);
-  }, [fileInfo]);
+  useEffect(() => {}, [fileInfo]);
   const onSave = () => {
     if (textEditorRef.current) {
       toast("Saving...");

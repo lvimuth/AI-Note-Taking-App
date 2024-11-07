@@ -14,7 +14,6 @@ function UpgradePlans() {
     const result = await userUpgradePlan({
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
-    console.log(result);
     toast("Plans upgraded successfully");
   };
   return (
@@ -129,7 +128,7 @@ function UpgradePlans() {
             <div className="mt-5">
               <PayPalButtons
                 onApprove={() => onPaymentSuccess()}
-                onCancel={() => console.log("Payment cancelled")}
+                onCancel={() => toast("Payment Cancelled")}
                 createOrder={(data, actions) => {
                   return actions?.order?.create({
                     purchase_units: [

@@ -44,7 +44,7 @@ export const GetFileRecord = query({
       .query("pdfFiles")
       .filter((q) => q.eq(q.field("fileID"), args.fileID))
       .collect();
-    console.log(result);
+
     return result[0];
   },
 });

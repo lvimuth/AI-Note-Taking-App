@@ -24,7 +24,7 @@ export default function Home() {
       imageURL: user?.imageUrl,
       userName: user?.fullName,
     });
-    console.log(result);
+
   };
   return (
     <div>
