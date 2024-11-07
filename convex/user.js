@@ -19,6 +19,7 @@ export const createUser = mutation({
         email: args.email,
         userName: args.userName,
         imageURL: args.imageURL,
+        upgrade: false,
       });
       return "Inserted new user successfully";
     }
